@@ -12,6 +12,15 @@ public class PersonService {
 
     private final AtomicLong counter = new AtomicLong();
 
+    public Person createPerson(Person person) {
+        return person;
+    }
+
+    public Person updatePerson(Person person) {
+        return person;
+    }
+
+
     public Person findById(Long id) {
 
         Person person = new Person();
@@ -27,7 +36,7 @@ public class PersonService {
     public List<Person> findAll() {
         List<Person> list = new ArrayList<>();
 
-        for (int x = 0; x < 8; x++) {
+        for (int x = 0; x <= 15; x++) {
             Person person = mockPerson(x);
             list.add(person);
         }
@@ -45,5 +54,8 @@ public class PersonService {
         return person;
 
     }
+
+
+
 
 }
