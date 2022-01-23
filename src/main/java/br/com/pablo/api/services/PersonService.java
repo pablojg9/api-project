@@ -1,6 +1,8 @@
 package br.com.pablo.api.services;
 
 import br.com.pablo.api.entities.Person;
+import br.com.pablo.api.exceptions.UnsupportedPersonException;
+import br.com.pablo.api.utils.MessageUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +20,18 @@ public class PersonService {
 
     public Person updatePerson(Person person) {
         return person;
+    }
+
+    public void deletePerson(Long id) {
+        if (id == null) {
+            throw new UnsupportedPersonException(MessageUtil.MESSAGE_EXCEPTION_ID_NULL);
+        }
+    }
+
+    public void deleteAll(Person person) {
+        if (person == null) {
+            throw new UnsupportedPersonException(MessageUtil.MESSAGE_EXCEPTION_ID_NULL);
+        }
     }
 
 
