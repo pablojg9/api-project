@@ -1,5 +1,7 @@
 package br.com.pablo.api.services;
 
+import br.com.pablo.api.converter.DozerConverter;
+import br.com.pablo.api.dtos.PersonDTO;
 import br.com.pablo.api.entities.Person;
 import br.com.pablo.api.exceptions.ResourceNotFoundException;
 import br.com.pablo.api.repositories.PersonRepository;
@@ -8,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -17,8 +18,8 @@ public class PersonService {
     private PersonRepository personRepository;
 
     // FindALl
-    public List<Person> findAll() {
-        return personRepository.findAll();
+    public List<PersonDTO> findAll() {
+        return DozerConverter.parseListObjects(personRepository.findAll(), PersonDTO.class);
     }
 
     // DELETE ALL
@@ -26,13 +27,17 @@ public class PersonService {
         personRepository.deleteAll();
     }
 
-    public Person findById(Long id) {
-        return personRepository.findById(id)
+    public PersonDTO findById(Long id) {
+
+        Person entity = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_NOT_FOUND_ID));
+
+        return DozerConverter.parseObject(entity, PersonDTO.class);
     }
 
-    public Person save(Person person) {
-        return personRepository.save(person);
+    public PersonDTO save(PersonDTO personDTO) {
+        Person entity = DozerConverter.parseObject(personDTO, Person.class);
+        return DozerConverter.parseObject(personRepository.save(entity), PersonDTO.class);
     }
 
     public void deleteById(Long id) {
@@ -42,7 +47,7 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
-    public Person updatePerson(Person person) {
+    public PersonDTO updatePerson(Person person) {
 
         Person entity = personRepository.findById(person.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_NOT_FOUND_ID));
@@ -52,6 +57,6 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return personRepository.save(entity);
+        return DozerConverter.parseObject(personRepository.save(entity), PersonDTO.class);
     }
 }

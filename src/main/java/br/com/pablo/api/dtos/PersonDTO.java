@@ -12,6 +12,14 @@ public class PersonDTO {
 
     public PersonDTO(){}
 
+    public PersonDTO(Long id, String firstName, String lastName, String address, String gender) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.gender = gender;
+    }
+
     public PersonDTO(Person person) {
         id = person.getId();
         firstName = person.getFirstName();
