@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/person")
@@ -34,7 +35,7 @@ public class PersonController {
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Person createPerson(@RequestBody Person person) {
-        return personService.createPerson(person);
+        return personService.save(person);
     }
 
     @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -44,12 +45,12 @@ public class PersonController {
 
     @DeleteMapping(value = "/delete/{id}")
     public void deleteById(@PathVariable Long id) {
-        personService.deletePerson(id);
+        personService.deleteById(id);
     }
 
     @DeleteMapping(value = "/delete")
-    public void deleteAll(Person person) {
-        personService.deleteAll(person);
+    public void deleteAll() {
+        personService.deleteAll();
     }
 
 }
