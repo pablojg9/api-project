@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/person")
@@ -42,12 +41,12 @@ public class PersonController {
     public ResponseEntity<PersonDTO> save(@RequestBody PersonDTO personDTO) {
         personService.save(personDTO);
 
-        return ResponseEntity.ok(personDTO);
+        return ResponseEntity.ok().body(personDTO);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<PersonDTO> updatePerson(@PathVariable Long id, @RequestBody Person person) {
-        PersonDTO personDTO = personService.updatePerson(person);
+    public ResponseEntity<PersonDTO> update(@PathVariable("id") Long id, @RequestBody Person person) {
+        PersonDTO personDTO = personService.updateById(id, person);
 
         return ResponseEntity.ok(personDTO);
     }
@@ -57,7 +56,6 @@ public class PersonController {
         personService.deleteById(id);
 
         return ResponseEntity.ok().build();
-
     }
 
     @DeleteMapping("/delete")

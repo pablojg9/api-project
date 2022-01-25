@@ -17,7 +17,7 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    // FindALl
+    // FindAll
     public List<PersonDTO> findAll() {
         return DozerConverter.parseListObjects(personRepository.findAll(), PersonDTO.class);
     }
@@ -35,9 +35,9 @@ public class PersonService {
         return DozerConverter.parseObject(entity, PersonDTO.class);
     }
 
-    public PersonDTO save(PersonDTO personDTO) {
+    public void save(PersonDTO personDTO) {
         Person entity = DozerConverter.parseObject(personDTO, Person.class);
-        return DozerConverter.parseObject(personRepository.save(entity), PersonDTO.class);
+        DozerConverter.parseObject(personRepository.save(entity), PersonDTO.class);
     }
 
     public void deleteById(Long id) {
@@ -47,9 +47,9 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
-    public PersonDTO updatePerson(Person person) {
+    public PersonDTO updateById(Long id, Person person) {
 
-        Person entity = personRepository.findById(person.getId())
+        Person entity = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_NOT_FOUND_ID));
 
         entity.setFirstName(person.getFirstName());
