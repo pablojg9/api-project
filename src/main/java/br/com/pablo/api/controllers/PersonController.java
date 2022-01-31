@@ -4,7 +4,6 @@ import br.com.pablo.api.dtos.PersonDTO;
 import br.com.pablo.api.entities.Person;
 import br.com.pablo.api.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,10 +31,9 @@ public class PersonController {
         List<PersonDTO> listDTO = personService.findAll();
 
         listDTO.stream()
-                .forEach(personDTO -> personDTO.add(
-                        linkTo(methodOn(PersonController.class).findById(personDTO.getKey())).withSelfRel()
-                        )
-                );
+                .forEach(personDTO -> personDTO.add(linkTo(methodOn(PersonController.class)
+                        .findById(personDTO.getKey()))
+                        .withSelfRel()));
 
         return ResponseEntity.ok(listDTO);
     }

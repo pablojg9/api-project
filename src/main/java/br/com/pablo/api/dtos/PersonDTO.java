@@ -1,6 +1,7 @@
 package br.com.pablo.api.dtos;
 
 import br.com.pablo.api.entities.Person;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 import org.springframework.hateoas.RepresentationModel;
@@ -11,6 +12,7 @@ import java.util.Objects;
 public class PersonDTO extends RepresentationModel<PersonDTO> {
 
     @Mapping("id")
+    @JsonProperty("id")
     private Long key;
     private String firstName;
     private String lastName;
