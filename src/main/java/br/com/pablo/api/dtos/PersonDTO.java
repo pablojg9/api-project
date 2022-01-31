@@ -1,18 +1,13 @@
 package br.com.pablo.api.dtos;
 
 import br.com.pablo.api.entities.Person;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonPropertyOrder({"id", "address","firstName", "lastName", "gender"})
 public class PersonDTO {
 
     private Long id;
-
-    @JsonProperty("first_name")
     private String firstName;
-
-    @JsonProperty("last_name")
     private String lastName;
     private String address;
 

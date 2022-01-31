@@ -1,6 +1,6 @@
 package br.com.pablo.api.services;
 
-import br.com.pablo.api.converter.DozerConverter;
+import br.com.pablo.api.mapper.DozerMapper;
 import br.com.pablo.api.dtos.PersonDTO;
 import br.com.pablo.api.entities.Person;
 import br.com.pablo.api.exceptions.ResourceNotFoundException;
@@ -19,7 +19,7 @@ public class PersonService {
 
     // FindAll
     public List<PersonDTO> findAll() {
-        return DozerConverter.parseListObjects(personRepository.findAll(), PersonDTO.class);
+        return DozerMapper.parseListObjects(personRepository.findAll(), PersonDTO.class);
     }
 
     // DELETE ALL
@@ -32,12 +32,12 @@ public class PersonService {
         Person entity = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_NOT_FOUND_ID));
 
-        return DozerConverter.parseObject(entity, PersonDTO.class);
+        return DozerMapper.parseObject(entity, PersonDTO.class);
     }
 
     public void save(PersonDTO personDTO) {
-        Person entity = DozerConverter.parseObject(personDTO, Person.class);
-        DozerConverter.parseObject(personRepository.save(entity), PersonDTO.class);
+        Person entity = DozerMapper.parseObject(personDTO, Person.class);
+        DozerMapper.parseObject(personRepository.save(entity), PersonDTO.class);
     }
 
     public void deleteById(Long id) {
@@ -57,6 +57,6 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return DozerConverter.parseObject(personRepository.save(entity), PersonDTO.class);
+        return DozerMapper.parseObject(personRepository.save(entity), PersonDTO.class);
     }
 }

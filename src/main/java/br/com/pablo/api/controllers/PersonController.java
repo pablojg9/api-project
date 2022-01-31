@@ -23,23 +23,23 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping(produces = { "application/json", "application/xml" })
+    @GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
     public ResponseEntity<List<PersonDTO>> findAll() {
         List<PersonDTO> listDTO = personService.findAll();
 
         return ResponseEntity.ok(listDTO);
     }
 
-    @GetMapping(value = "/id/{id}", produces = { "application/json", "application/xml" })
+    @GetMapping(value = "/id/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
     public ResponseEntity<PersonDTO> findById(@PathVariable("id") Long id) {
         PersonDTO personDTO = personService.findById(id);
 
         return ResponseEntity.ok(personDTO);
     }
 
-    @PostMapping(value = "/create", produces = { "application/json", "application/xml" },
+    @PostMapping(value = "/create", produces = { "application/json", "application/xml", "application/x-yaml" },
             consumes = { "application/json",
-        "application/xml"
+        "application/xml", "application/x-yaml"
     })
     public ResponseEntity<PersonDTO> save(@RequestBody PersonDTO personDTO) {
         personService.save(personDTO);
@@ -47,8 +47,8 @@ public class PersonController {
         return ResponseEntity.ok().body(personDTO);
     }
     
-    @PutMapping(value = "/update/{id}", produces = { "application/json", "application/xml" },
-            consumes = { "application/json", "application/xml" })
+    @PutMapping(value = "/update/{id}", produces = { "application/json", "application/xml", "application/x-yaml" },
+            consumes = { "application/json", "application/xml", "application/x-yaml" })
     public ResponseEntity<PersonDTO> update(@PathVariable("id") Long id, @RequestBody Person person) {
         PersonDTO personDTO = personService.updateById(id, person);
 
