@@ -23,28 +23,32 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping
+    @GetMapping(produces = { "application/json", "application/xml" })
     public ResponseEntity<List<PersonDTO>> findAll() {
         List<PersonDTO> listDTO = personService.findAll();
 
         return ResponseEntity.ok(listDTO);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping(value = "/id/{id}", produces = { "application/json", "application/xml" })
     public ResponseEntity<PersonDTO> findById(@PathVariable("id") Long id) {
         PersonDTO personDTO = personService.findById(id);
 
         return ResponseEntity.ok(personDTO);
     }
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create", produces = { "application/json", "application/xml" },
+            consumes = { "application/json",
+        "application/xml"
+    })
     public ResponseEntity<PersonDTO> save(@RequestBody PersonDTO personDTO) {
         personService.save(personDTO);
 
         return ResponseEntity.ok().body(personDTO);
     }
     
-    @PutMapping("/update/{id}")
+    @PutMapping(value = "/update/{id}", produces = { "application/json", "application/xml" },
+            consumes = { "application/json", "application/xml" })
     public ResponseEntity<PersonDTO> update(@PathVariable("id") Long id, @RequestBody Person person) {
         PersonDTO personDTO = personService.updateById(id, person);
 
