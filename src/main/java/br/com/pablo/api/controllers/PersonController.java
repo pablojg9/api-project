@@ -4,6 +4,7 @@ import br.com.pablo.api.dtos.PersonDTO;
 import br.com.pablo.api.entities.Person;
 import br.com.pablo.api.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,12 @@ public class PersonController {
     public ResponseEntity<List<PersonDTO>> findAll() {
         List<PersonDTO> listDTO = personService.findAll();
 
+        listDTO.stream()
+                .forEach(personDTO -> personDTO.add(
+                        linkTo(methodOn(PersonController.class).findById(personDTO.getKey())).withSelfRel()
+                        )
+                );
+
         return ResponseEntity.ok(listDTO);
     }
 
@@ -38,17 +45,14 @@ public class PersonController {
         PersonDTO personDTO = personService.findById(id);
         personDTO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 
-
-
         return ResponseEntity.ok(personDTO);
     }
 
     @PostMapping(value = "/create", produces = { "application/json", "application/xml", "application/x-yaml" },
-            consumes = { "application/json",
-        "application/xml", "application/x-yaml"
-    })
+            consumes = { "application/json", "application/xml", "application/x-yaml" })
     public ResponseEntity<PersonDTO> save(@RequestBody PersonDTO personDTO) {
         personService.save(personDTO);
+        personDTO.add(linkTo(methodOn(PersonController.class).findById(personDTO.getKey())).withSelfRel());
 
         return ResponseEntity.ok().body(personDTO);
     }
@@ -57,6 +61,7 @@ public class PersonController {
             consumes = { "application/json", "application/xml", "application/x-yaml" })
     public ResponseEntity<PersonDTO> update(@PathVariable("id") Long id, @RequestBody Person person) {
         PersonDTO personDTO = personService.updateById(id, person);
+        personDTO.add(linkTo(methodOn(PersonController.class).update(id, person)).withSelfRel());
 
         return ResponseEntity.ok(personDTO);
     }

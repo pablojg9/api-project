@@ -7,7 +7,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
 
-@JsonPropertyOrder({"id", "address","firstName", "lastName", "gender"})
+@JsonPropertyOrder({"id", "firstName", "lastName", "gender", "address"})
 public class PersonDTO extends RepresentationModel<PersonDTO> {
 
     @Mapping("id")
@@ -37,12 +37,12 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
         gender = person.getGender();
     }
 
-    public Long getId() {
+    public Long getKey() {
         return key;
     }
 
-    public void setId(Long id) {
-        this.key = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getFirstName() {
