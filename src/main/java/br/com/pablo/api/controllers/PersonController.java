@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping(value = "/person")
 public class PersonController {
@@ -33,6 +36,9 @@ public class PersonController {
     @GetMapping(value = "/id/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
     public ResponseEntity<PersonDTO> findById(@PathVariable("id") Long id) {
         PersonDTO personDTO = personService.findById(id);
+        personDTO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+
+
 
         return ResponseEntity.ok(personDTO);
     }

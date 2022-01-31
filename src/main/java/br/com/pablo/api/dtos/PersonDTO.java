@@ -2,11 +2,16 @@ package br.com.pablo.api.dtos;
 
 import br.com.pablo.api.entities.Person;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+import org.springframework.hateoas.RepresentationModel;
+
+import java.util.Objects;
 
 @JsonPropertyOrder({"id", "address","firstName", "lastName", "gender"})
-public class PersonDTO {
+public class PersonDTO extends RepresentationModel<PersonDTO> {
 
-    private Long id;
+    @Mapping("id")
+    private Long key;
     private String firstName;
     private String lastName;
     private String address;
@@ -16,8 +21,8 @@ public class PersonDTO {
 
     public PersonDTO(){}
 
-    public PersonDTO(Long id, String firstName, String lastName, String address, String gender) {
-        this.id = id;
+    public PersonDTO(Long key, String firstName, String lastName, String address, String gender) {
+        this.key = key;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -25,7 +30,7 @@ public class PersonDTO {
     }
 
     public PersonDTO(Person person) {
-        id = person.getId();
+        key = person.getId();
         firstName = person.getFirstName();
         lastName = person.getLastName();
         address = person.getAddress();
@@ -33,11 +38,11 @@ public class PersonDTO {
     }
 
     public Long getId() {
-        return id;
+        return key;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.key = id;
     }
 
     public String getFirstName() {
@@ -70,5 +75,19 @@ public class PersonDTO {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PersonDTO personDTO = (PersonDTO) o;
+        return Objects.equals(key, personDTO.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), key);
     }
 }
