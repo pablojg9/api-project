@@ -11,7 +11,7 @@ import java.util.List;
 
 @Configuration
 @SuppressWarnings("deprecation")
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfiguration implements WebMvcConfigurer {
 
     private static final MediaType MEDIA_TYPE_YML = MediaType.valueOf("application/x-yaml");
 

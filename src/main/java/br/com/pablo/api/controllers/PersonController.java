@@ -30,7 +30,7 @@ public class PersonController {
     public ResponseEntity<List<PersonDTO>> findAll() {
         List<PersonDTO> listDTO = personService.findAll();
 
-        listDTO.stream()
+        listDTO
                 .forEach(personDTO -> personDTO.add(linkTo(methodOn(PersonController.class)
                         .findById(personDTO.getKey()))
                         .withSelfRel()));
